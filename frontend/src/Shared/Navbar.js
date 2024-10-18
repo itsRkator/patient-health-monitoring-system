@@ -17,9 +17,14 @@ const Navbar = () => {
         </Link>
         <div className="flex items-center">
           {isLoggedIn ? (
-            <button onClick={handleLogout} className="text-white px-4">
-              Logout
-            </button>
+            <>
+              <Link className="text-white px-4" to="/authorization">
+                Prior Authorization
+              </Link>
+              <button onClick={handleLogout} className="text-white px-4">
+                Logout
+              </button>
+            </>
           ) : (
             <>
               <Link className="text-white px-4" to="/login">

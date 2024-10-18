@@ -9,7 +9,7 @@ import {
   Alert,
   MenuItem,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   createAuthorizationRequest,
   getPatients,
@@ -17,7 +17,7 @@ import {
 
 const CreateAuthorization = () => {
   const token = localStorage.getItem("token");
-  const navigate = useNavigate();
+  const { id } = useParams();
 
   const [patients, setPatients] = useState([]);
   const [formData, setFormData] = useState({
@@ -33,18 +33,30 @@ const CreateAuthorization = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
   useEffect(() => {
-    // Fetch patients from the server
     const fetchPatients = async () => {
       try {
         const response = await getPatients(token, {});
-        setPatients(response.patients); // Assuming the data structure matches
+        setPatients(response.patients);
+
+        // If an id is present, pre-fill the patient field
+        if (id) {
+          const foundPatient = response.patients.find(
+            (patient) => patient._id === id
+          );
+          if (foundPatient) {
+            setFormData((prev) => ({
+              ...prev,
+              patient: foundPatient._id, // Set the patient ID
+            }));
+          }
+        }
       } catch (error) {
         console.error("Error fetching patients:", error);
       }
     };
 
     fetchPatients();
-  }, []);
+  }, [id, token]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -85,19 +97,9 @@ const CreateAuthorization = () => {
   };
 
   return (
-    <Box
-      sx={{
-        padding: 4,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Paper
-        elevation={3}
-        sx={{ padding: 4, width: "400px", borderRadius: "8px" }}
-      >
-        <Typography variant="h5" align="center" gutterBottom>
+    <Box className="flex justify-center items-center p-4">
+      <Paper elevation={3} className="p-6 w-4/5 rounded-lg shadow-lg bg-white">
+        <Typography variant="h5" align="center" className="mb-4 text-gray-700">
           Create Authorization
         </Typography>
         <form onSubmit={handleSubmit}>
@@ -110,6 +112,8 @@ const CreateAuthorization = () => {
             onChange={handleChange}
             required
             margin="normal"
+            disabled={Boolean(id)} // Disable if id is present
+            className="bg-gray-50"
           >
             {patients.map((patient) => (
               <MenuItem key={patient._id} value={patient._id}>
@@ -125,6 +129,7 @@ const CreateAuthorization = () => {
             onChange={handleChange}
             required
             margin="normal"
+            className="bg-gray-50"
           />
           <TextField
             fullWidth
@@ -134,6 +139,7 @@ const CreateAuthorization = () => {
             onChange={handleChange}
             required
             margin="normal"
+            className="bg-gray-50"
           />
           <TextField
             fullWidth
@@ -144,7 +150,10 @@ const CreateAuthorization = () => {
             onChange={handleChange}
             required
             margin="normal"
-            InputLabelProps={{ shrink: true }}
+            className="bg-gray-50"
+            InputLabelProps={{
+              shrink: true, // Ensures the label is always in the "shrink" state when using type="date"
+            }}
           />
           <TextField
             fullWidth
@@ -154,6 +163,7 @@ const CreateAuthorization = () => {
             onChange={handleChange}
             required
             margin="normal"
+            className="bg-gray-50"
           />
           <TextField
             fullWidth
@@ -165,12 +175,13 @@ const CreateAuthorization = () => {
             margin="normal"
             multiline
             rows={4}
+            className="bg-gray-50"
           />
           <Button
             type="submit"
             variant="contained"
             color="primary"
-            sx={{ marginTop: 2, width: "100%" }}
+            className="mt-4 w-full bg-blue-600 hover:bg-blue-700"
           >
             Create Authorization
           </Button>

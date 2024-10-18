@@ -35,8 +35,10 @@ const Login = () => {
       const response = await loginUser(formData);
       if (response) {
         const token = response.token; // Extract the token from the response
+        const refreshToken = response.refreshToken; // Extract the token from the response
         // Save the token to localStorage
         localStorage.setItem("token", token);
+        localStorage.setItem("refreshToken", refreshToken);
 
         setSnackbarMessage("Login successful, redirecting to the dashboard...");
         setSnackbarSeverity("success");
@@ -45,7 +47,7 @@ const Login = () => {
         // Redirect after setting the token (e.g., to dashboard)
         setTimeout(() => {
           window.location.reload();
-        }, 1000);
+        }, 3000);
       } else {
         throw new Error("Login failed");
       }

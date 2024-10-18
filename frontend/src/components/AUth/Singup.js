@@ -36,12 +36,13 @@ const Signup = () => {
 
     try {
       const response = await signupUser(formData);
-      console.log(response);
       if (response) {
         const token = response.token; // Extract the token from the response
+        const refreshToken = response.refreshToken; // Extract the token from the response
 
         // Save the token to localStorage
         localStorage.setItem("token", token);
+        localStorage.setItem("refreshToken", refreshToken);
 
         setSnackbarMessage("Signup successful!");
         setSnackbarSeverity("success");
@@ -50,7 +51,7 @@ const Signup = () => {
         // Redirect after setting the token (e.g., to dashboard)
         setTimeout(() => {
           window.location.reload();
-        }, 1000);
+        }, 3000);
       } else {
         const data = await response.json();
         throw new Error(data.message || "Signup failed");

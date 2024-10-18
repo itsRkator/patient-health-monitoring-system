@@ -12,6 +12,7 @@ import CreateAuthorization from "./components/Authorization/CreateAuthorization"
 import AuthorizationList from "./components/Authorization/GetAuthorizationList";
 import Dashboard from "./components/Dashboard";
 import AddPatient from "./components/Patients/AddPatient";
+import PatientDetail from "./components/Patients/PatientDetail";
 
 const App = () => {
   const isLoggedIn = !!localStorage.getItem("token");
@@ -19,7 +20,7 @@ const App = () => {
   return (
     <Router>
       <Navbar />
-      <div className="container mx-auto mt-4">
+      <div className="container mt-2">
         <Routes>
           <Route
             path="/"
@@ -34,13 +35,19 @@ const App = () => {
             element={isLoggedIn ? <Navigate to="/" /> : <Signup />}
           />
           <Route
+            path="/authorization/:id"
+            element={
+              isLoggedIn ? <CreateAuthorization /> : <Navigate to="/login" />
+            }
+          />
+          <Route
             path="/authorization"
             element={
               isLoggedIn ? <CreateAuthorization /> : <Navigate to="/login" />
             }
           />
           <Route
-            path="/authorization-requests"
+            path="/authorizations/:id"
             element={
               isLoggedIn ? <AuthorizationList /> : <Navigate to="/login" />
             }
@@ -48,6 +55,10 @@ const App = () => {
           <Route
             path="/add-patient"
             element={isLoggedIn ? <AddPatient /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/patient/:id"
+            element={isLoggedIn ? <PatientDetail /> : <Navigate to="/" />}
           />
         </Routes>
       </div>

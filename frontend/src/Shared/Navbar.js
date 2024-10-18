@@ -15,18 +15,11 @@ const Navbar = () => {
         <Link className="text-white text-lg font-bold" to="/">
           Healthcare App
         </Link>
-        <div>
-          {isLoggedIn && (
-            <Link className="text-white px-4" to="/authorization">
-              Authorization Requests
-            </Link>
-          )}
+        <div className="flex items-center">
           {isLoggedIn ? (
-            <>
-              <button onClick={handleLogout} className="text-white px-4">
-                Logout
-              </button>
-            </>
+            <button onClick={handleLogout} className="text-white px-4">
+              Logout
+            </button>
           ) : (
             <>
               <Link className="text-white px-4" to="/login">

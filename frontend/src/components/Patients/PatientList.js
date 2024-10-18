@@ -76,15 +76,14 @@ const PatientList = () => {
   return (
     <>
       <Box className="flex items-center gap-2 mb-2 justify-end">
-        {!!patients.length && (
-          <input
-            type="text"
-            placeholder="Search Patients"
-            value={search}
-            onChange={handleSearch}
-            className="h-4 w-36 p-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        )}
+        <input
+          type="text"
+          placeholder="Search Patients"
+          value={search}
+          onChange={handleSearch}
+          className="h-4 w-36 p-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+
         <Button
           onClick={() => navigate("/add-patient")}
           variant="contained"

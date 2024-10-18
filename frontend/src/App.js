@@ -20,7 +20,7 @@ const App = () => {
   return (
     <Router>
       <Navbar />
-      <div className="container mt-2">
+      <div className="container m-auto">
         <Routes>
           <Route
             path="/"
